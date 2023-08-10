@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+const int INF=1e8;
+
+const int N=1e6;
+
+vector<pair<int,int>>adj_list[N];
+
+int visited[N];
+
+int d[N];
+
+int main()
+{
+    int node,edge;
+
+    cin>>node>>edge;
+
+
+    for(int i=0; i<edge; i++)
+    {
+
+        int p,q,w;
+
+        cin>>p>>q>>w;
+
+        adj_list[p].push_back({q,w});
+        adj_list[q].push_back({p,w});
+    }
+
+    for(int i=1; i<=node; i++)
+    {
+        d[i]=INF;
+    }
+
+
+    int src=1;
+
+    d[src]=0;
+
+
+    for(int i=1; i<=node; i++)
+    {
+        int selected=-1;
+
+        for(int j=1; j<=node; j++)
+        {
+            if(visited[selected]==1)
+            {
+                continue;
+            }
+
+
+
+
+
+
+            if(selected==-1 || d[selected]>d[j])
+            {
+                selected=j;
+
+            }
+
+        }
+
+        visited[selected]=1;
+
+
+
+        for(auto adj_node:adj_list[selected])
+        {
+            int v=adj_node.first;
+            int w=adj_node.second;
+
+            if(d[selected]+w<d[v])
+            {
+                d[v]=d[selected]+w;
+            }
+        }
+    }
+
+
+
+    for(int i=1;i<=node;i++)
+    {
+        cout<<d[i]<<" ";
+        cout<<endl;
+    }
+
+}
