@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N=1e5;
+
+int visited[N];
+int level[N];
+
+vector<int>adj_list[N];
+
+void bfs(int val)
+{
+    queue<int>q;
+
+    q.push(val);
+
+
+    visited[val]=1;
+
+    while(!q.empty())
+    {
+        int head=q.front();
+        q.pop();
+
+       // cout<<head<<endl;
+
+
+        for(auto child:adj_list[head])
+        {
+            if(visited[child]==0)
+            {
+                visited[child]=1;
+
+                level[child]=level[head]+1;
+
+            }
+        }
+    }
+}
+int main()
+{
+    int n,m;
+
+    cin>>n>>m;
+
+    for(int i=0;i<m;i++)
+    {
+        int p,q;
+        cin>>p>>q;
+
+        adj_list[p].push_back(q);
+        adj_list[q].push_back(p);
+
+
+    }
+    int src=1;
+
+    level[src]=0;
+
+    bfs(1);
+
+      for(int i=1;i<=n;i++)
+    {
+        cout<<i<<" has a  level: "<< level[i]<<endl;
+    }
+}
