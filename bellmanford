@@ -1,0 +1,96 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+const int N=1e5;
+const int INF=1e7;
+
+vector<pair<int,int>>adj_list[N];
+
+int d[N];
+int parent[N];
+
+int main()
+
+{
+    int n,m;
+
+    cin>>n>>m;
+
+    for(int i=0;i<m;i++)
+    {
+        int p,q,w;
+
+        cin>>p>>q>>w;
+
+        adj_list[p].push_back({q,w});
+    }
+
+    for(int i=1;i<=n;i++)
+    {
+        d[i]=INF;
+    }
+
+    d[1]=0;
+
+    parent[1]=-1;
+    bool negative_cycle=false;
+    int selected_node;
+
+    //bell man ford for negative edges;
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            for(auto adj_node:adj_list[j])
+            {
+                int u=j;
+                int v=adj_node.first;
+                int w=adj_node.second;
+
+                //relation part
+
+                if(d[u]+w<d[v])
+                {
+                    d[v]=d[u]+w;
+
+                    parent[v]=u;
+
+                    if(j==n)
+                    {
+                        negative_cycle=true;
+                        selected_node=v;
+                    }
+                }
+            }
+        }
+    }
+
+
+    int first=selected_node;
+
+    vector<int>cycle;
+    cycle.push_back(selected_node);
+
+    while(true)
+    {
+        selected_node=parent[selected_node];
+        cycle.push_back(selected_node);
+
+    }
+
+    reverse(cycle.begin(),cycle.end());
+
+    for(auto ii:cycle)
+    {
+        cout<<ii<<" ";
+    }
+
+    cout<<endl;
+
+
+
+
+
+
+}
